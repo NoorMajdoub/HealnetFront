@@ -1,6 +1,5 @@
 "use client"
-
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -14,6 +13,26 @@ export function CameraScanScreen() {
   const [progress, setProgress] = useState(0)
   const [analysisComplete, setAnalysisComplete] = useState(false)
   const [detectedIssues, setDetectedIssues] = useState<string[]>([])
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null) // State to store uploaded image
+  
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string); // Set the uploaded image URL
+      }
+      reader.readAsDataURL(file);
+      setPhotoTaken(true); // Update photoTaken state to show image preview
+      console.log("Uploaded file:", file);
+    }
+  }
 
   const toggleCamera = () => {
     setCameraActive(!cameraActive)
@@ -49,7 +68,8 @@ export function CameraScanScreen() {
     setProgress(0)
     setAnalysisComplete(false)
     setDetectedIssues([])
-  }
+    setUploadedImage(null); // Clear uploaded image when deleted
+  };
 
   return (
     <div className="flex flex-col">
@@ -90,11 +110,13 @@ export function CameraScanScreen() {
               </div>
             ) : photoTaken ? (
               <div className="aspect-video bg-gray-100 rounded-lg flex flex-col items-center justify-center mb-4 relative">
-                <img
-                  src="/placeholder.svg?height=720&width=1280"
-                  alt="Captured photo"
-                  className="w-full h-full object-cover rounded-lg"
-                />
+                {uploadedImage && (
+                  <img
+                    src={uploadedImage} // Show uploaded image
+                    alt="Uploaded preview"
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                )}
                 {!isAnalyzing && !analysisComplete && (
                   <Button
                     variant="destructive"
@@ -150,7 +172,14 @@ export function CameraScanScreen() {
                         <Camera className="mr-2 h-4 w-4" />
                         Take Photo
                       </Button>
-                      <Button variant="outline">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                      />
+                      <Button variant="outline" onClick={handleButtonClick}>
                         <Upload className="mr-2 h-4 w-4" />
                         Upload Image
                       </Button>

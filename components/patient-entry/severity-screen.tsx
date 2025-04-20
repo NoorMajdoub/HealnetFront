@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,7 +9,7 @@ import { Progress } from "@/components/ui/progress"
 export function SeverityScreen() {
   const [progress, setProgress] = useState(0)
   const [analysisComplete, setAnalysisComplete] = useState(false)
-  const [severity, setSeverity] = useState<"high" | "medium" | "low" | null>(null)
+  const [severity, setSeverity] = useState<"medium">("medium") // Directly setting "medium"
   const [diagnosticData, setDiagnosticData] = useState({
     symptoms: true,
     visualScan: false,
@@ -28,24 +27,13 @@ export function SeverityScreen() {
     } else if (progress === 100 && !analysisComplete) {
       setTimeout(() => {
         setAnalysisComplete(true)
-        // Randomly select a severity level for demo purposes
-        const levels: Array<"high" | "medium" | "low"> = ["high", "medium", "low"]
-        setSeverity(levels[Math.floor(Math.random() * levels.length)])
+        // No need to randomly select severity anymore
       }, 500)
     }
   }, [progress, analysisComplete])
 
   const getSeverityContent = () => {
     switch (severity) {
-      case "high":
-        return {
-          icon: <AlertTriangle className="h-16 w-16 text-red-500 mb-4" />,
-          color: "text-red-500",
-          bgColor: "bg-red-100",
-          title: "High Severity",
-          description: "You need immediate medical attention. We'll direct you to an on-site doctor right away.",
-          action: "See Doctor Now",
-        }
       case "medium":
         return {
           icon: <Clock className="h-16 w-16 text-amber-500 mb-4" />,
@@ -55,15 +43,6 @@ export function SeverityScreen() {
           description:
             "Your condition requires attention soon. We'll connect you with an online doctor for consultation.",
           action: "Start Online Consultation",
-        }
-      case "low":
-        return {
-          icon: <CheckCircle className="h-16 w-16 text-green-500 mb-4" />,
-          color: "text-green-500",
-          bgColor: "bg-green-100",
-          title: "Low Severity",
-          description: "Your condition can be treated with medication. We'll provide instructions for self-care.",
-          action: "Get Medication Instructions",
         }
       default:
         return {
@@ -140,27 +119,9 @@ export function SeverityScreen() {
                 <div className="bg-white/50 p-4 rounded-lg text-left mt-4">
                   <h3 className="font-medium mb-2">Key findings:</h3>
                   <ul className="list-disc pl-5 space-y-1 text-sm">
-                    {severity === "high" && (
-                      <>
-                        <li>Severe respiratory symptoms detected in audio scan</li>
-                        <li>Possible signs of infection visible in camera scan</li>
-                        <li>Reported high fever and difficulty breathing</li>
-                      </>
-                    )}
-                    {severity === "medium" && (
-                      <>
-                        <li>Moderate pain levels reported</li>
-                        <li>Slight movement asymmetry detected</li>
-                        <li>Minor respiratory issues detected in audio scan</li>
-                      </>
-                    )}
-                    {severity === "low" && (
-                      <>
-                        <li>Mild symptoms reported</li>
-                        <li>No significant issues detected in diagnostic scans</li>
-                        <li>Vital signs appear to be within normal ranges</li>
-                      </>
-                    )}
+                    <li>Moderate pain levels reported</li>
+                    <li>Slight bruising detected wiith discoloration </li>
+                    
                   </ul>
                 </div>
               )}
