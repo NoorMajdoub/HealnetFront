@@ -1,5 +1,5 @@
 
-# 🌍 HealNet – Frontend
+#  HealNet – Frontend
 
 **HealNet** is a digital health application designed to support **war victims and refugees** by providing them with a **universal, easy-to-use medical record system**. Inspired by the **Global Citizen** concept, HealNet enables individuals to securely access and share their health information regardless of where they are in the world.
 
