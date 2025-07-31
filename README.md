@@ -6,7 +6,7 @@
 ---
  ![App Screenshot](public/first.png)
 
-## 🎯 Project Goal
+##  Project Goal
 
 HealNet's mission is to **bridge the healthcare access gap for displaced communities**. Refugees and war survivors often lose access to their medical history — HealNet empowers them with a **portable digital health record** that:
 
